@@ -25,10 +25,11 @@ export function signToken(user) {
 }
 
 export function setAuthCookie(res, token) {
+  const isProd = process.env.NODE_ENV === 'production';
   res.cookie(TOKEN_COOKIE, token, {
     httpOnly: true,
-    sameSite: 'lax',
-    secure: process.env.NODE_ENV === 'production',
+    sameSite: isProd ? 'none' : 'lax',
+    secure: isProd,
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
 }
